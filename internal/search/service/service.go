@@ -9,7 +9,7 @@ import (
 
 // interface area
 type Search interface {
-	SearchEmployees(keyword string) ([]*model.Employee, error)
+	SearchEmployees(keywordString string) ([]*model.Employee, error)
 }
 
 type Sync interface {
@@ -33,7 +33,12 @@ func NewSearchService(repo repository.Repository) *SearchService {
 	return &SearchService{repository: repo}
 }
 
-func (s *SearchService) SearchEmployees(keyword string) ([]*model.Employee, error) {
+func (s *SearchService) SearchEmployees(keywordString string) ([]*model.Employee, error) {
+	keyword := model.NewKeyword(keywordString)
+	if err := keyword.ValidateBadKeyword(); err != nil {
+		log.Printf("found a bad keyword: %v\n", keyword)
+		return nil, err
+	}
 	employees, err := s.repository.SearchData(keyword)
 	if err != nil {
 		log.Println("failed search employees: ", err)

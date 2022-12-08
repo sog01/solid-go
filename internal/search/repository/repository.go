@@ -20,7 +20,7 @@ type Repository interface {
 	SeedingData(idStart, n int) error
 	UpdateData(e *model.Employee) error
 	DeleteData(id int) error
-	SearchData(keyword string) ([]*model.Employee, error)
+	SearchData(keyword model.Keyword) ([]*model.Employee, error)
 }
 
 type ElasticSearch struct {
@@ -180,7 +180,7 @@ func (c *ElasticSearch) DeleteData(id int) error {
 	return nil
 }
 
-func (c *ElasticSearch) SearchData(keyword string) ([]*model.Employee, error) {
+func (c *ElasticSearch) SearchData(keyword model.Keyword) ([]*model.Employee, error) {
 	query := fmt.Sprintf(`
 	{
 		"query": {
