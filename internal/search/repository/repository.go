@@ -118,8 +118,8 @@ func (c *ElasticSearch) SeedingData(idStart, n int) error {
 	for i := idStart; i < n; i++ {
 		if err := c.InsertData(&model.Employee{
 			Id:      i,
-			Name:    "person" + strconv.Itoa(i),
-			Address: "address" + strconv.Itoa(i),
+			Name:    "person " + strconv.Itoa(i),
+			Address: "address " + strconv.Itoa(i),
 			Salary:  float64(i * 100),
 		}); err != nil {
 			return fmt.Errorf("failed seeding data with id %d: %v", i, err)
